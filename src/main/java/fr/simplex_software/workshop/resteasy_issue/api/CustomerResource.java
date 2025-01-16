@@ -8,6 +8,7 @@ import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.*;
 
 import java.net.*;
+import java.util.*;
 
 @ApplicationScoped
 @Path("customers")
@@ -21,7 +22,7 @@ public class CustomerResource
   @GET
   public Response getAll()
   {
-    return Response.ok().entity(customerRepository.findAll()).build();
+    return Response.ok().entity(new GenericEntity<List<Customer>>(customerRepository.findAll()) {}).build();
   }
 
   @GET
