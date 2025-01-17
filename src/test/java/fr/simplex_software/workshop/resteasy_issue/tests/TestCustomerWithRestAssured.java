@@ -17,29 +17,9 @@ import java.util.*;
 import static io.restassured.RestAssured.*;
 import static org.assertj.core.api.Assertions.*;
 
-@Testcontainers
-public class TestCustomer
+public class TestCustomerWithRestAssured extends TestCustomerCommon
 {
-  private static Logger LOG = LoggerFactory.getLogger("orders");
-
-  @Container
-  private static final GenericContainer<?> environment =
-    new GenericContainer<>("wildfly-bootable/resteasy-issue:local")
-      .withExposedPorts(8080)
-      .withNetwork(Network.newNetwork())
-      .withNetworkAliases("wildfly-network-alias")
-      .withLogConsumer(new Slf4jLogConsumer(LOG))
-      .waitingFor(Wait.forLogMessage(".*WFLYSRV0025.*", 1));
-
-  @BeforeAll
-  public static void beforeAll()
-  {
-    baseURI = "http://" + environment.getHost() + ":"
-      + String.valueOf(environment.getMappedPort(8080));
-  }
-
   @Test
-  @org.junit.jupiter.api.Order(10)
   public void testCreateCustomer()
   {
     Customer customer = new Customer("Mike", "Doe", "mike.doe@email.com", "096-23419");
@@ -57,7 +37,7 @@ public class TestCustomer
       .extract().body().as(Customer.class);
     assertThat(customer).isNotNull();
     assertThat(customer.getFirstName()).isEqualTo("Mike");
-    List<Customer> customers = given().when().get("/customers").then()
+    List<Customer> customers = given().log().all().when().get("/customers").then().log().all()
       .statusCode(HttpStatus.SC_OK)
       .extract().body().as(new TypeRef<List<Customer>>() {});
   }
