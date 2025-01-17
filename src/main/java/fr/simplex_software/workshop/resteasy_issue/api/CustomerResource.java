@@ -12,8 +12,8 @@ import java.util.*;
 
 @ApplicationScoped
 @Path("customers")
-@Produces(MediaType.APPLICATION_XML)
-@Consumes(MediaType.APPLICATION_XML)
+@Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+@Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
 public class CustomerResource
 {
   @Inject

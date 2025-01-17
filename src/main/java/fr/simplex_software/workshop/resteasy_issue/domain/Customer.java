@@ -1,5 +1,6 @@
 package fr.simplex_software.workshop.resteasy_issue.domain;
 
+import com.fasterxml.jackson.annotation.*;
 import jakarta.persistence.*;
 import jakarta.xml.bind.annotation.*;
 
@@ -11,6 +12,7 @@ import jakarta.xml.bind.annotation.*;
   hints = @QueryHint(name = "org.hibernate.cacheable", value = "true"))
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
+@JsonPropertyOrder({"id", "firstName", "lastName", "email", "phone"})
 public class Customer
 {
   @Id
@@ -18,18 +20,23 @@ public class Customer
   @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "customerSequence")
   @Column(name = "ID", nullable = false)
   @XmlAttribute
+  @JsonProperty("id")
   private Long id;
   @Column(name = "FIRST_NAME", nullable = false, length = 40)
   @XmlAttribute
+  @JsonProperty("firstName")
   private String firstName;
   @Column(name = "LAST_NAME", nullable = false, length = 40)
   @XmlAttribute
+  @JsonProperty("lastName")
   private String lastName;
   @Column(name = "EMAIL", nullable = false, unique = true, length = 40)
   @XmlAttribute
+  @JsonProperty("email")
   private String email;
   @Column(name = "PHONE", nullable = false, unique = true, length = 40)
   @XmlAttribute
+  @JsonProperty("phone")
   private String phone;
 
   public Customer() {}

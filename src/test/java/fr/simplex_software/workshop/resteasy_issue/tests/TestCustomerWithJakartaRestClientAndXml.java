@@ -5,19 +5,13 @@ import jakarta.ws.rs.client.*;
 import jakarta.ws.rs.core.*;
 import org.apache.http.*;
 import org.junit.jupiter.api.*;
-import org.slf4j.*;
-import org.testcontainers.containers.*;
-import org.testcontainers.containers.output.*;
-import org.testcontainers.containers.wait.strategy.*;
-import org.testcontainers.junit.jupiter.*;
-import org.testcontainers.junit.jupiter.Container;
 
 import java.util.*;
 
 import static io.restassured.RestAssured.*;
 import static org.assertj.core.api.Assertions.*;
 
-public class TestCustomerWithJakartaRestClient extends TestCustomerCommon
+public class TestCustomerWithJakartaRestClientAndXml extends TestCustomerCommon
 {
   @Test
   public void testCreateCustomer()
@@ -37,7 +31,7 @@ public class TestCustomerWithJakartaRestClient extends TestCustomerCommon
       List<Customer> customers = response.readEntity(new GenericType<List<Customer>>() {});
       assertThat(customers).isNotNull();
       assertThat(customers).hasSize(2);
-      assertThat(customers.get(0).getFirstName()).isEqualTo("Mike");
+      assertThat(customers.getFirst().getFirstName()).isEqualTo("Jane");
       assertThat(customers.get(1).getFirstName()).isEqualTo("John");
       response.close();
     }
